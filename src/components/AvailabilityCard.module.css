@@ -1,6 +1,6 @@
 .card {
   margin-top: var(--space-md);
-  padding: var(--space-md);
+  padding: var(--space-sm);
   background: var(--bg-secondary);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
@@ -22,8 +22,8 @@
 }
 
 .pill {
-  padding: 8px 18px;
-  font-size: 0.875rem;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
   font-weight: 500;
   background: var(--bg-elevated);
   color: var(--accent-gold);
@@ -42,4 +42,15 @@
   background: var(--accent-gold);
   color: var(--bg-primary);
   border-color: var(--accent-gold);
+}
+
+@media (min-width: 769px) {
+  .card {
+    padding: var(--space-md);
+  }
+
+  .pill {
+    padding: 8px 18px;
+    font-size: 0.875rem;
+  }
 }

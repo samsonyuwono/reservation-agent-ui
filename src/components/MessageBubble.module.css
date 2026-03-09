@@ -13,11 +13,11 @@
 }
 
 .bubble {
-  max-width: 85%;
-  padding: 12px 16px;
+  max-width: 92%;
+  padding: 10px 12px;
   border-radius: var(--radius-lg);
   line-height: 1.55;
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
 }
 
 .userBubble {
@@ -121,4 +121,12 @@
 
 .retryBtn:hover {
   opacity: 0.85;
+}
+
+@media (min-width: 769px) {
+  .bubble {
+    max-width: 85%;
+    padding: 12px 16px;
+    font-size: 0.9375rem;
+  }
 }

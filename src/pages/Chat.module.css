@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  max-width: 720px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -10,13 +10,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-md) var(--space-md);
+  padding: var(--space-sm) var(--space-sm);
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .logo {
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 400;
   color: var(--text-primary);
 }
@@ -45,10 +45,10 @@
 .messages {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-lg) var(--space-md);
+  padding: var(--space-sm) var(--space-xs);
   display: flex;
   flex-direction: column;
-  gap: var(--space-md);
+  gap: var(--space-sm);
 }
 
 .empty {
@@ -63,13 +63,47 @@
 
 .emptyTitle {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: var(--text-secondary);
 }
 
 .emptyHint {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: var(--text-muted);
-  max-width: 400px;
+  max-width: 100%;
   line-height: 1.5;
+}
+
+@media (min-width: 481px) {
+  .messages {
+    padding: var(--space-md) var(--space-sm);
+  }
+}
+
+@media (min-width: 769px) {
+  .layout {
+    max-width: 720px;
+  }
+
+  .header {
+    padding: var(--space-md) var(--space-md);
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+
+  .messages {
+    padding: var(--space-lg) var(--space-md);
+    gap: var(--space-md);
+  }
+
+  .emptyTitle {
+    font-size: 1.5rem;
+  }
+
+  .emptyHint {
+    max-width: 400px;
+    font-size: 0.875rem;
+  }
 }

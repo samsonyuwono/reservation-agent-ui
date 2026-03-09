@@ -19,7 +19,7 @@
 }
 
 .completedLabel {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
@@ -47,7 +47,14 @@
 }
 
 .label {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   margin-left: 4px;
+}
+
+@media (min-width: 769px) {
+  .completedLabel,
+  .label {
+    font-size: 0.8125rem;
+  }
 }

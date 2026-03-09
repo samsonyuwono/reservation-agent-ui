@@ -1,6 +1,6 @@
 .card {
   margin-top: var(--space-md);
-  padding: var(--space-md) var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
   background: var(--bg-secondary);
   border: 1px solid var(--accent-green);
   border-radius: var(--radius-md);
@@ -44,6 +44,7 @@
   align-items: center;
   gap: var(--space-sm);
   margin-top: var(--space-sm);
+  flex-wrap: wrap;
 }
 
 .confirmation {
@@ -66,4 +67,14 @@
 
 .copyBtn:hover {
   opacity: 0.85;
+}
+
+@media (min-width: 769px) {
+  .card {
+    padding: var(--space-md) var(--space-lg);
+  }
+
+  .confirmationRow {
+    flex-wrap: nowrap;
+  }
 }

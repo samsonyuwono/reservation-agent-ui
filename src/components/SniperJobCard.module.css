@@ -1,0 +1,70 @@
+.card {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  animation: fadeInUp 0.3s var(--ease-out) both;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.jobId {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.status {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.statusPending {
+  color: var(--accent-amber);
+  background: rgba(212, 160, 57, 0.12);
+}
+
+.statusSuccess {
+  color: var(--accent-green);
+  background: rgba(76, 175, 125, 0.12);
+}
+
+.statusFailed {
+  color: var(--accent-red);
+  background: rgba(192, 84, 79, 0.12);
+}
+
+.restaurant {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.details {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.sep {
+  margin: 0 6px;
+  color: var(--text-muted);
+}
+
+.progress {
+  margin-top: var(--space-sm);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}

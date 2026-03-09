@@ -1,0 +1,38 @@
+.row {
+  display: flex;
+  animation: fadeInUp 0.25s var(--ease-out) both;
+}
+
+.userRow {
+  justify-content: flex-end;
+}
+
+.assistantRow {
+  justify-content: flex-start;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  line-height: 1.55;
+  font-size: 0.9375rem;
+}
+
+.userBubble {
+  background: var(--bg-elevated);
+  border-bottom-right-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+.assistantBubble {
+  background: transparent;
+  color: var(--text-primary);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

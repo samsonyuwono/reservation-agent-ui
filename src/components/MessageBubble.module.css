@@ -1,14 +1,15 @@
 .row {
   display: flex;
+  flex-direction: column;
   animation: fadeInUp 0.25s var(--ease-out) both;
 }
 
 .userRow {
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .assistantRow {
-  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .bubble {
@@ -35,4 +36,89 @@
 .text {
   white-space: pre-wrap;
   word-break: break-word;
+}
+
+/* Markdown rendering for assistant messages */
+.markdown {
+  white-space: normal;
+  word-break: break-word;
+  color: var(--text-primary);
+}
+
+.markdown p {
+  margin: 0 0 0.5em;
+}
+
+.markdown p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown ul,
+.markdown ol {
+  margin: 0.4em 0;
+  padding-left: 1.4em;
+}
+
+.markdown li {
+  margin-bottom: 0.2em;
+}
+
+.markdown strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.markdown a {
+  color: var(--accent-gold);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-gold-dim);
+}
+
+.markdown a:hover {
+  text-decoration-color: var(--accent-gold);
+}
+
+.markdown code {
+  font-family: monospace;
+  font-size: 0.875em;
+  background: var(--bg-elevated);
+  padding: 2px 5px;
+  border-radius: var(--radius-sm);
+}
+
+/* Timestamp below each bubble */
+.timestamp {
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  padding: 0 2px;
+}
+
+/* Error bubble */
+.errorBubble {
+  background: rgba(192, 84, 79, 0.08);
+  border-left: 3px solid var(--accent-red);
+  color: var(--text-primary);
+  padding-left: 14px;
+}
+
+.errorFooter {
+  display: flex;
+  margin-top: var(--space-sm);
+}
+
+.retryBtn {
+  padding: 5px 16px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.retryBtn:hover {
+  opacity: 0.85;
 }

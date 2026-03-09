@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ReservationCardData } from "../api/types";
 import styles from "./ReservationCard.module.css";
 
@@ -6,6 +7,15 @@ interface Props {
 }
 
 export function ReservationCard({ data }: Props) {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopy() {
+    if (!data.confirmationNumber) return;
+    navigator.clipboard.writeText(data.confirmationNumber);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
   return (
     <div className={styles.card}>
       <div className={styles.badge}>{data.status}</div>
@@ -18,8 +28,13 @@ export function ReservationCard({ data }: Props) {
         <span>{data.partySize} guests</span>
       </div>
       {data.confirmationNumber && (
-        <div className={styles.confirmation}>
-          #{data.confirmationNumber}
+        <div className={styles.confirmationRow}>
+          <span className={styles.confirmation}>
+            #{data.confirmationNumber}
+          </span>
+          <button className={styles.copyBtn} onClick={handleCopy}>
+            {copied ? "Copied!" : "Copy"}
+          </button>
         </div>
       )}
     </div>

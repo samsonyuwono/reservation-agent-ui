@@ -15,7 +15,7 @@ function makeId() {
 }
 
 /** Map a tool name to a friendly status label. */
-function toolLabel(tool: string): string {
+export function toolLabel(tool: string): string {
   const labels: Record<string, string> = {
     search_resy_restaurants: "Searching restaurants…",
     search_resy_by_cuisine: "Browsing by cuisine…",
@@ -30,8 +30,24 @@ function toolLabel(tool: string): string {
   return labels[tool] ?? "Working…";
 }
 
+/** Friendly past-tense label for completed tools. */
+export function completedLabel(tool: string): string {
+  const labels: Record<string, string> = {
+    search_resy_restaurants: "Searched restaurants",
+    search_resy_by_cuisine: "Browsed by cuisine",
+    check_resy_availability: "Checked availability",
+    make_resy_reservation: "Booked reservation",
+    resolve_reservation_conflict: "Resolved conflict",
+    view_my_reservations: "Loaded reservations",
+    view_sniper_jobs: "Loaded sniper jobs",
+    schedule_sniper: "Scheduled sniper",
+    get_current_time: "Checked time",
+  };
+  return labels[tool] ?? "Done";
+}
+
 /** Try to extract structured card data from a tool_result event. */
-function extractCards(
+export function extractCards(
   tool: string,
   result: Record<string, unknown>,
 ): CardData[] {
@@ -99,17 +115,26 @@ export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
   const [activeToolLabel, setActiveToolLabel] = useState<string | null>(null);
+  const [completedTools, setCompletedTools] = useState<string[]>([]);
   const sessionIdRef = useRef<string | null>(null);
+  const lastUserTextRef = useRef("");
 
   // Accumulate tool events and cards for the current assistant message
   const pendingToolEvents = useRef<ToolEvent[]>([]);
   const pendingCards = useRef<CardData[]>([]);
 
   const send = useCallback(async (text: string) => {
-    const userMsg: ChatMessage = { id: makeId(), role: "user", text };
+    lastUserTextRef.current = text;
+    const userMsg: ChatMessage = {
+      id: makeId(),
+      role: "user",
+      text,
+      timestamp: Date.now(),
+    };
     setMessages((prev) => [...prev, userMsg]);
     setIsStreaming(true);
     setActiveToolLabel(null);
+    setCompletedTools([]);
     pendingToolEvents.current = [];
     pendingCards.current = [];
 
@@ -128,12 +153,15 @@ export function useChat() {
         pendingToolEvents.current.push({ type: "tool_result", tool, result });
         const cards = extractCards(tool, result);
         pendingCards.current.push(...cards);
+        setCompletedTools((prev) => [...prev, completedLabel(tool)]);
+        setActiveToolLabel(null);
       },
       onMessage(msgText) {
         const assistantMsg: ChatMessage = {
           id: makeId(),
           role: "assistant",
           text: msgText,
+          timestamp: Date.now(),
           toolEvents: [...pendingToolEvents.current],
           cards:
             pendingCards.current.length > 0
@@ -148,6 +176,8 @@ export function useChat() {
           id: makeId(),
           role: "assistant",
           text: `Error: ${detail}`,
+          timestamp: Date.now(),
+          isError: true,
         };
         setMessages((prev) => [...prev, errMsg]);
         setActiveToolLabel(null);
@@ -155,9 +185,16 @@ export function useChat() {
       onDone() {
         setIsStreaming(false);
         setActiveToolLabel(null);
+        setCompletedTools([]);
       },
     });
   }, []);
+
+  const retry = useCallback(() => {
+    if (!isStreaming && lastUserTextRef.current) {
+      send(lastUserTextRef.current);
+    }
+  }, [isStreaming, send]);
 
   const clearChat = useCallback(async () => {
     if (sessionIdRef.current) {
@@ -167,7 +204,16 @@ export function useChat() {
     setMessages([]);
     setIsStreaming(false);
     setActiveToolLabel(null);
+    setCompletedTools([]);
   }, []);
 
-  return { messages, isStreaming, activeToolLabel, send, clearChat };
+  return {
+    messages,
+    isStreaming,
+    activeToolLabel,
+    completedTools,
+    send,
+    retry,
+    clearChat,
+  };
 }

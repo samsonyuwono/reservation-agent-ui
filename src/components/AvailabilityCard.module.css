@@ -37,3 +37,9 @@
   background: var(--accent-gold);
   color: var(--bg-primary);
 }
+
+.pillConfirm {
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  border-color: var(--accent-gold);
+}

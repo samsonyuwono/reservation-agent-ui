@@ -11,7 +11,15 @@ interface Props {
 }
 
 export function Chat({ onLogout }: Props) {
-  const { messages, isStreaming, activeToolLabel, send, clearChat } = useChat();
+  const {
+    messages,
+    isStreaming,
+    activeToolLabel,
+    completedTools,
+    send,
+    retry,
+    clearChat,
+  } = useChat();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,6 +30,8 @@ export function Chat({ onLogout }: Props) {
     clearToken();
     onLogout();
   }
+
+  const lastIdx = messages.length - 1;
 
   return (
     <div className={styles.layout}>
@@ -40,20 +50,28 @@ export function Chat({ onLogout }: Props) {
       <main className={styles.messages}>
         {messages.length === 0 && (
           <div className={styles.empty}>
-            <p className={styles.emptyTitle}>What table can I find for you?</p>
+            <p className={styles.emptyTitle}>What table can I find for you? Only for New York City</p>
             <p className={styles.emptyHint}>
               Try &ldquo;Find Italian restaurants in Manhattan&rdquo; or
               &ldquo;Check availability at Carbone for Friday at 7pm for
               2&rdquo;
             </p>
+            <p>Reservation Sniper Now in BETA</p>
           </div>
         )}
 
-        {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} onSend={send} />
+        {messages.map((msg, i) => (
+          <MessageBubble
+            key={msg.id}
+            message={msg}
+            onSend={send}
+            onRetry={i === lastIdx && msg.isError ? retry : undefined}
+          />
         ))}
 
-        {activeToolLabel && <ToolStatus label={activeToolLabel} />}
+        {activeToolLabel && (
+          <ToolStatus label={activeToolLabel} completedTools={completedTools} />
+        )}
 
         <div ref={bottomRef} />
       </main>

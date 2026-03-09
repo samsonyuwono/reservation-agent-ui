@@ -1,9 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  animation: fadeInUp 0.2s var(--ease-out) both;
+}
+
+.completed {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+
+.check {
+  font-size: 0.75rem;
+  color: var(--accent-green);
+  line-height: 1;
+}
+
+.completedLabel {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
 .wrapper {
   display: flex;
   align-items: center;
   gap: 6px;
   padding: var(--space-sm) 0;
-  animation: fadeInUp 0.2s var(--ease-out) both;
 }
 
 .dot {

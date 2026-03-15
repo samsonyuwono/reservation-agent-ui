@@ -1,16 +1,40 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+/**
+ * Shared 30-second tick so all MessageBubbles re-render together
+ * instead of each creating its own setInterval.
+ */
+let tick = 0;
+const listeners = new Set<() => void>();
+let intervalId: ReturnType<typeof setInterval> | null = null;
+
+function subscribe(cb: () => void) {
+  listeners.add(cb);
+  if (!intervalId) {
+    intervalId = setInterval(() => {
+      tick++;
+      listeners.forEach((fn) => fn());
+    }, 30_000);
+  }
+  return () => {
+    listeners.delete(cb);
+    if (listeners.size === 0 && intervalId) {
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  };
+}
+
+function getSnapshot() {
+  return tick;
+}
 
 /**
  * Returns a human-friendly relative time string that updates every 30s.
- * "just now" → "2m ago" → "1h ago" → "Mar 8"
+ * "just now" -> "2m ago" -> "1h ago" -> "Mar 8"
  */
 export function useRelativeTime(epoch: number): string {
-  const [, setTick] = useState(0);
-
-  useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 30_000);
-    return () => clearInterval(id);
-  }, []);
+  useSyncExternalStore(subscribe, getSnapshot);
 
   const diff = Math.floor((Date.now() - epoch) / 1000);
 

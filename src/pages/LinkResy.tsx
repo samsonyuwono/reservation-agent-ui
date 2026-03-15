@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { linkResy } from "../api/client";
+import { ResyLogo } from "../components/ResyLogo";
 import styles from "./Login.module.css";
 
 interface Props {
@@ -29,7 +30,7 @@ export function LinkResy({ onSuccess }: Props) {
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h1 className={styles.title}>Link Your Resy Account</h1>
+        <h1 className={styles.title}><ResyLogo size="lg" /></h1>
         <p className={styles.subtitle}>
           Enter your Resy credentials to make reservations
         </p>

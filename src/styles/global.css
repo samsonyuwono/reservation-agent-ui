@@ -8,29 +8,27 @@
 
 :root {
   /* Background */
-  --bg-primary: #0f0f0f;
-  --bg-secondary: #1a1a1a;
-  --bg-elevated: #242424;
-  --bg-input: #1e1e1e;
+  --bg-primary: #000000;
+  --bg-secondary: #1c1c1e;
+  --bg-elevated: #2a2a2a;
+  --bg-input: #1c1c1e;
 
   /* Text */
-  --text-primary: #f0ece4;
-  --text-secondary: #a09888;
-  --text-muted: #6b6156;
+  --text-primary: #ffffff;
+  --text-secondary: #8e8e93;
+  --text-muted: #636366;
 
   /* Accent */
-  --accent-gold: #c9a84c;
-  --accent-gold-dim: #a68a3e;
-  --accent-amber: #d4a039;
+  --accent-red: #da3743;
   --accent-green: #4caf7d;
-  --accent-red: #c0544f;
+  --accent-blue: #4a6cf7;
+  --accent-blue-hover: #5b7bf8;
 
   /* Borders */
   --border-subtle: #2a2a2a;
   --border-card: #333;
 
   /* Fonts */
-  --font-display: "DM Serif Display", Georgia, serif;
   --font-body: "Inter", system-ui, -apple-system, sans-serif;
 
   /* Spacing */

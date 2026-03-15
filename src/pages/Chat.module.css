@@ -15,10 +15,8 @@
 }
 
 .logo {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--text-primary);
+  display: flex;
+  align-items: center;
 }
 
 .linkedEmail {
@@ -69,8 +67,8 @@
 }
 
 .emptyTitle {
-  font-family: var(--font-display);
   font-size: 1.25rem;
+  font-weight: 700;
   color: var(--text-secondary);
 }
 
@@ -94,10 +92,6 @@
 
   .header {
     padding: var(--space-md) var(--space-md);
-  }
-
-  .logo {
-    font-size: 1.25rem;
   }
 
   .messages {

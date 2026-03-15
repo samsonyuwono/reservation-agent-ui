@@ -1,0 +1,19 @@
+.card {
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  animation: fadeInUp 0.3s var(--ease-out) both;
+}
+
+.sep {
+  margin: 0 6px;
+  color: var(--text-muted);
+}
+
+@media (min-width: 769px) {
+  .card {
+    padding: var(--space-md);
+  }
+}

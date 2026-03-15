@@ -1,3 +1,4 @@
+import { memo } from "react";
 import type { SniperJobCardData } from "../api/types";
 import styles from "./SniperJobCard.module.css";
 
@@ -5,13 +6,11 @@ interface Props {
   data: SniperJobCardData;
 }
 
-export function SniperJobCard({ data }: Props) {
+export const SniperJobCard = memo(function SniperJobCard({ data }: Props) {
   const statusClass =
-    data.status === "completed"
-      ? styles.statusSuccess
-      : data.status === "failed"
-        ? styles.statusFailed
-        : styles.statusPending;
+    data.status === "completed" ? styles.statusSuccess
+    : data.status === "failed" ? styles.statusFailed
+    : styles.statusPending;
 
   return (
     <div className={styles.card}>
@@ -30,4 +29,4 @@ export function SniperJobCard({ data }: Props) {
       </div>
     </div>
   );
-}
+});

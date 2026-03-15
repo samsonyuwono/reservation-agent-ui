@@ -47,20 +47,23 @@ describe("ReservationCard", () => {
     expect(screen.queryByText("Copy")).not.toBeInTheDocument();
   });
 
-  it("copy button writes to clipboard and shows 'Copied!'", () => {
+  it("copy button writes to clipboard and shows 'Copied!'", async () => {
     render(<ReservationCard data={baseData} />);
 
     fireEvent.click(screen.getByText("Copy"));
 
     expect(writeText).toHaveBeenCalledWith("RES-12345");
+    // Flush the resolved clipboard promise
+    await act(async () => {});
     expect(screen.getByText("Copied!")).toBeInTheDocument();
   });
 
-  it("copy button resets after 2s", () => {
+  it("copy button resets after 2s", async () => {
     vi.useFakeTimers();
     render(<ReservationCard data={baseData} />);
 
     fireEvent.click(screen.getByText("Copy"));
+    await act(async () => {});
     expect(screen.getByText("Copied!")).toBeInTheDocument();
 
     act(() => {

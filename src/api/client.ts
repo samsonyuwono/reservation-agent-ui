@@ -183,7 +183,13 @@ export async function sendMessage(
       if (line.startsWith("event: ")) {
         currentEvent = line.slice(7);
       } else if (line.startsWith("data: ") && currentEvent) {
-        const data = JSON.parse(line.slice(6)) as Record<string, unknown>;
+        let data: Record<string, unknown>;
+        try {
+          data = JSON.parse(line.slice(6)) as Record<string, unknown>;
+        } catch {
+          currentEvent = "";
+          continue;
+        }
         switch (currentEvent) {
           case "session":
             callbacks.onSession(data.session_id as string);

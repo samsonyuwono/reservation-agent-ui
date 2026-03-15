@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
 import { login } from "../api/client";
+import { ResyLogo } from "../components/ResyLogo";
 import styles from "./Login.module.css";
 
 interface Props {
@@ -28,7 +29,7 @@ export function Login({ onSuccess }: Props) {
   return (
     <div className={styles.wrapper}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h1 className={styles.title}>Resy Concierge</h1>
+        <h1 className={styles.title}><ResyLogo subtitle="Concierge" size="lg" /></h1>
         <p className={styles.subtitle}>Restaurant reservation assistant</p>
 
         <input

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import type { AvailabilityCardData } from "../api/types";
 import styles from "./AvailabilityCard.module.css";
 
@@ -7,7 +7,7 @@ interface Props {
   onBook: (text: string) => void;
 }
 
-export function AvailabilityCard({ data, onBook }: Props) {
+export const AvailabilityCard = memo(function AvailabilityCard({ data, onBook }: Props) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
 
   // Auto-reset confirmation after 3s
@@ -37,12 +37,16 @@ export function AvailabilityCard({ data, onBook }: Props) {
             key={slot.configId}
             className={`${styles.pill} ${confirmId === slot.configId ? styles.pillConfirm : ""}`}
             onClick={() => handleClick(slot)}
-            title={slot.type}
           >
-            {confirmId === slot.configId ? "Confirm?" : slot.time}
+            <span className={styles.pillTime}>
+              {confirmId === slot.configId ? "Confirm?" : slot.time}
+            </span>
+            {confirmId !== slot.configId && slot.type && (
+              <span className={styles.pillType}>{slot.type}</span>
+            )}
           </button>
         ))}
       </div>
     </div>
   );
-}
+});

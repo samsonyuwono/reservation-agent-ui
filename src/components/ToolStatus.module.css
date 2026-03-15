@@ -34,7 +34,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--accent-gold-dim);
+  background: var(--accent-blue);
   animation: pulse 1.2s ease-in-out infinite;
 }
 

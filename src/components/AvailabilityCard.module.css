@@ -22,26 +22,45 @@
 }
 
 .pill {
-  padding: 6px 14px;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  background: var(--bg-elevated);
-  color: var(--accent-gold);
-  border: 1px solid var(--accent-gold-dim);
-  border-radius: var(--radius-pill);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 14px;
+  background: var(--accent-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s;
 }
 
 .pill:hover {
-  background: var(--accent-gold);
-  color: var(--bg-primary);
+  background: var(--accent-blue-hover);
 }
 
 .pillConfirm {
-  background: var(--accent-gold);
-  color: var(--bg-primary);
-  border-color: var(--accent-gold);
+  background: var(--accent-red);
+}
+
+.pillConfirm:hover {
+  background: var(--accent-red);
+  opacity: 0.9;
+}
+
+.pillTime {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.pillType {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+  line-height: 1;
 }
 
 @media (min-width: 769px) {
@@ -50,7 +69,14 @@
   }
 
   .pill {
-    padding: 8px 18px;
+    padding: 10px 18px;
+  }
+
+  .pillTime {
     font-size: 0.875rem;
+  }
+
+  .pillType {
+    font-size: 0.625rem;
   }
 }

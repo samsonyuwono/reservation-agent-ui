@@ -61,7 +61,7 @@ export function Chat({ onUnlink }: Props) {
               &ldquo;Check availability at Carbone for Friday at 7pm for
               2&rdquo;
             </p>
-            <p>Reservation Sniper Now in BETA</p>
+            <p>Reservation Sniper Now in beta</p>
           </div>
         )}
 

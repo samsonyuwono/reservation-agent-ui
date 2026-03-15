@@ -8,11 +8,9 @@ interface Props {
 
 export const SniperJobCard = memo(function SniperJobCard({ data }: Props) {
   const statusClass =
-    data.status === "completed"
-      ? styles.statusSuccess
-      : data.status === "failed"
-        ? styles.statusFailed
-        : styles.statusPending;
+    data.status === "completed" ? styles.statusSuccess
+    : data.status === "failed" ? styles.statusFailed
+    : styles.statusPending;
 
   return (
     <div className={styles.card}>

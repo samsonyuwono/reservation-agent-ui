@@ -14,36 +14,27 @@ function makeId() {
   return `msg-${++nextId}`;
 }
 
-/** Map a tool name to a friendly status label. */
+/** Tool name → { active label, completed label }. */
+const TOOL_LABELS: Record<string, { active: string; completed: string }> = {
+  search_resy_restaurants: { active: "Searching restaurants…", completed: "Searched restaurants" },
+  search_resy_by_cuisine: { active: "Browsing by cuisine…", completed: "Browsed by cuisine" },
+  check_resy_availability: { active: "Checking availability…", completed: "Checked availability" },
+  make_resy_reservation: { active: "Booking reservation…", completed: "Booked reservation" },
+  resolve_reservation_conflict: { active: "Resolving conflict…", completed: "Resolved conflict" },
+  view_my_reservations: { active: "Loading reservations…", completed: "Loaded reservations" },
+  view_sniper_jobs: { active: "Loading sniper jobs…", completed: "Loaded sniper jobs" },
+  schedule_sniper: { active: "Scheduling sniper…", completed: "Scheduled sniper" },
+  get_current_time: { active: "Checking time…", completed: "Checked time" },
+};
+
+/** Map a tool name to a friendly active status label. */
 export function toolLabel(tool: string): string {
-  const labels: Record<string, string> = {
-    search_resy_restaurants: "Searching restaurants…",
-    search_resy_by_cuisine: "Browsing by cuisine…",
-    check_resy_availability: "Checking availability…",
-    make_resy_reservation: "Booking reservation…",
-    resolve_reservation_conflict: "Resolving conflict…",
-    view_my_reservations: "Loading reservations…",
-    view_sniper_jobs: "Loading sniper jobs…",
-    schedule_sniper: "Scheduling sniper…",
-    get_current_time: "Checking time…",
-  };
-  return labels[tool] ?? "Working…";
+  return TOOL_LABELS[tool]?.active ?? "Working…";
 }
 
 /** Friendly past-tense label for completed tools. */
 export function completedLabel(tool: string): string {
-  const labels: Record<string, string> = {
-    search_resy_restaurants: "Searched restaurants",
-    search_resy_by_cuisine: "Browsed by cuisine",
-    check_resy_availability: "Checked availability",
-    make_resy_reservation: "Booked reservation",
-    resolve_reservation_conflict: "Resolved conflict",
-    view_my_reservations: "Loaded reservations",
-    view_sniper_jobs: "Loaded sniper jobs",
-    schedule_sniper: "Scheduled sniper",
-    get_current_time: "Checked time",
-  };
-  return labels[tool] ?? "Done";
+  return TOOL_LABELS[tool]?.completed ?? "Done";
 }
 
 /** Try to extract structured card data from a tool_result event. */

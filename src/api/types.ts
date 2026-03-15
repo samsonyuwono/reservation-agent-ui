@@ -47,8 +47,3 @@ export interface SniperJobCardData {
   pollCount: number;
   maxAttempts: number;
 }
-
-export interface SSEEvent {
-  event: string;
-  data: Record<string, unknown>;
-}

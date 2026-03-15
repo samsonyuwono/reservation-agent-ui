@@ -10,8 +10,8 @@ import { LinkResy } from "./pages/LinkResy";
 import { Chat } from "./pages/Chat";
 
 export function App() {
-  const [authed, setAuthed] = useState(isAuthenticated);
-  const [resyLinked, setResyLinked] = useState(!!getResyEmail());
+  const [authed, setAuthed] = useState(() => isAuthenticated());
+  const [resyLinked, setResyLinked] = useState(() => !!getResyEmail());
 
   useEffect(() => {
     // Re-check if token was cleared (e.g. 401)

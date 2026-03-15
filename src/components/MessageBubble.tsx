@@ -23,7 +23,12 @@ export const MessageBubble = memo(function MessageBubble({ message, onSend, onRe
       className={`${styles.row} ${isUser ? styles.userRow : styles.assistantRow}`}
     >
       <div
-        className={`${styles.bubble} ${isUser ? styles.userBubble : ""} ${!isUser && !isError ? styles.assistantBubble : ""} ${isError ? styles.errorBubble : ""}`}
+        className={[
+          styles.bubble,
+          isUser && styles.userBubble,
+          !isUser && !isError && styles.assistantBubble,
+          isError && styles.errorBubble,
+        ].filter(Boolean).join(" ")}
       >
         {isUser ? (
           <p className={styles.text}>{message.text}</p>

@@ -11,9 +11,13 @@ export const ReservationCard = memo(function ReservationCard({ data }: Props) {
 
   function handleCopy() {
     if (!data.confirmationNumber) return;
-    navigator.clipboard.writeText(data.confirmationNumber);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    navigator.clipboard.writeText(data.confirmationNumber).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      },
+      () => {},
+    );
   }
 
   return (

@@ -110,6 +110,31 @@ The Reservation Agent existed as a CLI chatbot. The goal was to wrap it in a web
 
 ---
 
+## Iteration 5: Per-User Resy Credential Linking
+
+**Goal:** Move from a single shared Resy credential to per-user credential linking, so multiple users can each connect their own Resy account.
+
+**Why this matters:** The original system had one hardcoded Resy credential in the backend `.env`. Every user who logged into the web UI was making reservations through the same Resy account. For multi-user support, each user needs to authenticate with their own Resy credentials — and the backend needs to store and use the right credentials per session.
+
+**What we built:**
+
+- **Three-screen auth flow:** Login → Link Resy → Chat. After authenticating with the web password, users must link their Resy account before they can chat. The backend validates Resy credentials in real-time, encrypts them with Fernet, and stores them server-side keyed to the user's JWT.
+- **Server-side link verification:** On mount, the app calls `GET /api/resy/status` to verify the backend still has valid Resy credentials. If the link was cleared server-side (e.g., credential rotation), the UI drops back to the LinkResy page automatically.
+- **Unlink flow:** `DELETE /api/resy/unlink` removes stored credentials and returns a new JWT without the Resy email claim. The frontend clears the cached email and returns to the LinkResy page.
+- **"Sign out" means "disconnect Resy":** The "Sign out" button in Chat calls `unlinkResy()` — it disconnects the user's Resy account and returns to the LinkResy page. There is no separate logout from the web session; the auth token persists in localStorage until manually cleared or a 401 expires it. This simplifies the UI to two header actions: "New chat" and "Sign out".
+- **LinkResy page has no sign-out:** Since the web session persists and the only meaningful "sign out" is disconnecting Resy, the LinkResy page only shows the credential form — no sign-out button.
+- **Helpful onboarding context:** The LinkResy page explains that credentials are encrypted and only used for booking, with a link to resy.com for users who don't have an account yet.
+
+**Key decision — "Sign out" = unlink Resy, not clear web session:** The web auth password is a shared gate (like a building key), not a personal identity. The personal identity is the Resy account. So "signing out" means disconnecting your Resy account, which is the meaningful action. The web session can persist — it's low-risk since it only gates access to the chat interface.
+
+**Key decision — Server-side link verification on mount:** Without this, a user whose credentials were cleared server-side would see the Chat page but get 403s on every message. The `getResyStatus()` check on mount catches this and redirects to LinkResy proactively.
+
+**Key decision — localStorage cross-tab sync retained:** The `storage` event listener in App.tsx detects when another tab clears the token (e.g., from a 401 response), keeping all tabs in sync. This was almost removed during the sessionStorage exploration but retained when we stayed with localStorage.
+
+**Outcome:** Full per-user Resy linking flow working end-to-end. Build clean, all 83 tests pass. Backend changes in ai-agents repo provide the encrypted credential storage and JWT-based credential routing.
+
+---
+
 ## Architecture
 
 ```text

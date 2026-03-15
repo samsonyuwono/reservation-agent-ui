@@ -10,11 +10,28 @@ export function setToken(token: string) {
 
 export function clearToken() {
   localStorage.removeItem("auth_token");
+  localStorage.removeItem("resy_email");
 }
 
 export function isAuthenticated(): boolean {
   return !!getToken();
 }
+
+// --- Resy email management ---
+
+export function getResyEmail(): string | null {
+  return localStorage.getItem("resy_email");
+}
+
+export function setResyEmail(email: string) {
+  localStorage.setItem("resy_email", email);
+}
+
+export function clearResyEmail() {
+  localStorage.removeItem("resy_email");
+}
+
+// --- Auth ---
 
 export async function login(password: string): Promise<string> {
   const res = await fetch(`${API_BASE}/api/auth/login`, {
@@ -30,6 +47,80 @@ export async function login(password: string): Promise<string> {
   setToken(data.token);
   return data.token;
 }
+
+// --- Resy credential linking ---
+
+export async function linkResy(
+  email: string,
+  password: string,
+): Promise<{ token: string; resy_email: string }> {
+  const token = getToken();
+  if (!token) throw new Error("Not authenticated");
+
+  const res = await fetch(`${API_BASE}/api/resy/link`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (res.status === 401) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(
+      (body as { detail?: string }).detail || "Invalid Resy credentials",
+    );
+  }
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error((body as { detail?: string }).detail || "Link failed");
+  }
+
+  const data = (await res.json()) as {
+    success: boolean;
+    token: string;
+    resy_email: string;
+  };
+  setToken(data.token);
+  setResyEmail(data.resy_email);
+  return data;
+}
+
+export async function getResyStatus(): Promise<{
+  linked: boolean;
+  resy_email: string | null;
+}> {
+  const token = getToken();
+  if (!token) return { linked: false, resy_email: null };
+
+  const res = await fetch(`${API_BASE}/api/resy/status`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) return { linked: false, resy_email: null };
+
+  return (await res.json()) as { linked: boolean; resy_email: string | null };
+}
+
+export async function unlinkResy(): Promise<void> {
+  const token = getToken();
+  if (!token) return;
+
+  const res = await fetch(`${API_BASE}/api/resy/unlink`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (res.ok) {
+    const data = (await res.json()) as { success: boolean; token: string };
+    setToken(data.token);
+    clearResyEmail();
+  }
+}
+
+// --- Chat SSE ---
 
 export interface SSECallbacks {
   onSession: (sessionId: string) => void;
@@ -67,6 +158,11 @@ export async function sendMessage(
   if (res.status === 401) {
     clearToken();
     callbacks.onError("Session expired");
+    return;
+  }
+
+  if (res.status === 403) {
+    callbacks.onError("resy_not_linked");
     return;
   }
 

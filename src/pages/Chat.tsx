@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { clearToken } from "../api/client";
+import { clearToken, getResyEmail, unlinkResy } from "../api/client";
 import { useChat } from "../hooks/useChat";
 import { MessageBubble } from "../components/MessageBubble";
 import { ToolStatus } from "../components/ToolStatus";
@@ -8,9 +8,10 @@ import styles from "./Chat.module.css";
 
 interface Props {
   onLogout: () => void;
+  onUnlink: () => void;
 }
 
-export function Chat({ onLogout }: Props) {
+export function Chat({ onLogout, onUnlink }: Props) {
   const {
     messages,
     isStreaming,
@@ -21,6 +22,7 @@ export function Chat({ onLogout }: Props) {
     clearChat,
   } = useChat();
   const bottomRef = useRef<HTMLDivElement>(null);
+  const resyEmail = getResyEmail();
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -31,15 +33,28 @@ export function Chat({ onLogout }: Props) {
     onLogout();
   }
 
+  async function handleUnlink() {
+    await unlinkResy();
+    onUnlink();
+  }
+
   const lastIdx = messages.length - 1;
 
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
-        <h1 className={styles.logo}>Resy Concierge</h1>
+        <div>
+          <h1 className={styles.logo}>Resy Concierge</h1>
+          {resyEmail && (
+            <span className={styles.linkedEmail}>{resyEmail}</span>
+          )}
+        </div>
         <div className={styles.headerActions}>
           <button className={styles.headerBtn} onClick={clearChat}>
             New chat
+          </button>
+          <button className={styles.headerBtn} onClick={handleUnlink}>
+            Unlink Resy
           </button>
           <button className={styles.headerBtn} onClick={handleLogout}>
             Sign out

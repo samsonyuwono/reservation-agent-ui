@@ -33,9 +33,8 @@ export function Chat({ onLogout, onUnlink }: Props) {
     onLogout();
   }
 
-  async function handleUnlink() {
-    await unlinkResy();
-    onUnlink();
+  function handleUnlink() {
+    unlinkResy().then(onUnlink).catch(() => {});
   }
 
   const lastIdx = messages.length - 1;

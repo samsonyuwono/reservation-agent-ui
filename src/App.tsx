@@ -27,12 +27,14 @@ export function App() {
   // Verify server-side link status on mount when authed
   useEffect(() => {
     if (!authed) return;
-    getResyStatus().then((status) => {
-      if (!status.linked) {
-        clearResyEmail();
-        setResyLinked(false);
-      }
-    });
+    getResyStatus()
+      .then((status) => {
+        if (!status.linked) {
+          clearResyEmail();
+          setResyLinked(false);
+        }
+      })
+      .catch(() => {});
   }, [authed]);
 
   function handleLogout() {

@@ -66,16 +66,11 @@ export async function linkResy(
     body: JSON.stringify({ email, password }),
   });
 
-  if (res.status === 401) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(
-      (body as { detail?: string }).detail || "Invalid Resy credentials",
-    );
-  }
-
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error((body as { detail?: string }).detail || "Link failed");
+    const detail = (body as { detail?: string }).detail;
+    const fallback = res.status === 401 ? "Invalid Resy credentials" : "Link failed";
+    throw new Error(detail || fallback);
   }
 
   const data = (await res.json()) as {

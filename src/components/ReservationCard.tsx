@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import type { ReservationCardData } from "../api/types";
 import styles from "./ReservationCard.module.css";
 
@@ -6,7 +6,7 @@ interface Props {
   data: ReservationCardData;
 }
 
-export function ReservationCard({ data }: Props) {
+export const ReservationCard = memo(function ReservationCard({ data }: Props) {
   const [copied, setCopied] = useState(false);
 
   function handleCopy() {
@@ -39,4 +39,4 @@ export function ReservationCard({ data }: Props) {
       )}
     </div>
   );
-}
+});

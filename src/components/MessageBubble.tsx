@@ -1,3 +1,4 @@
+import { memo } from "react";
 import ReactMarkdown from "react-markdown";
 import type { ChatMessage } from "../api/types";
 import { useRelativeTime } from "../hooks/useRelativeTime";
@@ -12,7 +13,7 @@ interface Props {
   onRetry?: () => void;
 }
 
-export function MessageBubble({ message, onSend, onRetry }: Props) {
+export const MessageBubble = memo(function MessageBubble({ message, onSend, onRetry }: Props) {
   const isUser = message.role === "user";
   const isError = message.isError;
   const relTime = useRelativeTime(message.timestamp);
@@ -54,4 +55,4 @@ export function MessageBubble({ message, onSend, onRetry }: Props) {
       <span className={styles.timestamp}>{relTime}</span>
     </div>
   );
-}
+});

@@ -17,28 +17,6 @@
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.logoBadge {
-  display: inline-block;
-  background: #da3743;
-  color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  padding: 6px 12px;
-  border-radius: 3px;
-  line-height: 1;
-}
-
-.logoSub {
-  color: var(--text-secondary);
-  font-size: 0.9375rem;
-  font-weight: 500;
 }
 
 .linkedEmail {
@@ -115,15 +93,6 @@
 
   .header {
     padding: var(--space-md) var(--space-md);
-  }
-
-  .logoBadge {
-    font-size: 0.875rem;
-    padding: 7px 14px;
-  }
-
-  .logoSub {
-    font-size: 1.0625rem;
   }
 
   .messages {

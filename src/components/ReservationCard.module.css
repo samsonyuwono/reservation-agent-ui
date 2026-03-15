@@ -1,11 +1,8 @@
 .card {
-  margin-top: var(--space-md);
+  composes: card from "../styles/shared.module.css";
   padding: var(--space-sm) var(--space-md);
-  background: var(--bg-secondary);
-  border: 1px solid var(--accent-green);
-  border-radius: var(--radius-md);
+  border-color: var(--accent-green);
   position: relative;
-  animation: fadeInUp 0.3s var(--ease-out) both;
 }
 
 .badge {
@@ -35,8 +32,7 @@
 }
 
 .sep {
-  margin: 0 6px;
-  color: var(--text-muted);
+  composes: sep from "../styles/shared.module.css";
 }
 
 .confirmationRow {
@@ -73,7 +69,6 @@
   .card {
     padding: var(--space-md) var(--space-lg);
   }
-
   .confirmationRow {
     flex-wrap: nowrap;
   }

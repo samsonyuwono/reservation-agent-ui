@@ -4,6 +4,7 @@ import { useChat } from "../hooks/useChat";
 import { MessageBubble } from "../components/MessageBubble";
 import { ToolStatus } from "../components/ToolStatus";
 import { ChatInput } from "../components/ChatInput";
+import { ResyLogo } from "../components/ResyLogo";
 import styles from "./Chat.module.css";
 
 interface Props {
@@ -25,7 +26,7 @@ export function Chat({ onUnlink }: Props) {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, activeToolLabel]);
+  }, [messages.length]);
 
   function handleSignOut() {
     unlinkResy().then(onUnlink).catch(() => {});
@@ -37,7 +38,7 @@ export function Chat({ onUnlink }: Props) {
     <div className={styles.layout}>
       <header className={styles.header}>
         <div>
-          <h1 className={styles.logo}>Resy Concierge</h1>
+          <h1 className={styles.logo}><ResyLogo subtitle="Concierge" /></h1>
           {resyEmail && (
             <span className={styles.linkedEmail}>{resyEmail}</span>
           )}
@@ -61,7 +62,7 @@ export function Chat({ onUnlink }: Props) {
               &ldquo;Check availability at Carbone for Friday at 7pm for
               2&rdquo;
             </p>
-            <p>Reservation Sniper Now in beta</p>
+            <p>Reservation Sniper Now in BETA</p>
           </div>
         )}
 

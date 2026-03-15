@@ -58,9 +58,9 @@ export function Chat({ onUnlink }: Props) {
           <div className={styles.empty}>
             <p className={styles.emptyTitle}>What table can I find for you? Only for New York City</p>
             <p className={styles.emptyHint}>
-              Try &ldquo;Find Italian restaurants in Manhattan&rdquo; or
-              &ldquo;Check availability at Carbone for Friday at 7pm for
-              2&rdquo;
+              &ldquo;Best sushi spots in the West Village&rdquo;
+              &middot; &ldquo;Book Carbone, Friday 7pm, party of 2&rdquo;
+              &middot; &ldquo;What&rsquo;s open tonight near SoHo?&rdquo;
             </p>
             <p>Reservation Sniper Now in BETA</p>
           </div>

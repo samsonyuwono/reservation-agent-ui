@@ -35,6 +35,17 @@ export function LinkResy({ onSuccess, onLogout }: Props) {
           Enter your Resy credentials to make reservations
         </p>
 
+        <p className={styles.hint}>
+          Reservations are made through your personal Resy account. Your
+          credentials are encrypted and only used to book tables on your behalf.
+        </p>
+        <p className={styles.hint}>
+          Don&apos;t have a Resy account?{" "}
+          <a href="https://resy.com" target="_blank" rel="noopener noreferrer">
+            Sign up at resy.com
+          </a>
+        </p>
+
         <input
           className={styles.input}
           type="email"

@@ -70,6 +70,15 @@ describe("LinkResy", () => {
     });
   });
 
+  it("renders helpful context about credentials and resy.com link", () => {
+    render(<LinkResy onSuccess={vi.fn()} onLogout={vi.fn()} />);
+    expect(screen.getByText(/encrypted/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /resy\.com/i })).toHaveAttribute(
+      "href",
+      "https://resy.com",
+    );
+  });
+
   it("sign out button calls onLogout", async () => {
     const user = userEvent.setup();
     const onLogout = vi.fn();

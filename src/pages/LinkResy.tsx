@@ -4,10 +4,9 @@ import styles from "./Login.module.css";
 
 interface Props {
   onSuccess: () => void;
-  onLogout: () => void;
 }
 
-export function LinkResy({ onSuccess, onLogout }: Props) {
+export function LinkResy({ onSuccess }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -71,15 +70,6 @@ export function LinkResy({ onSuccess, onLogout }: Props) {
           {loading ? "Linking…" : "Link Account"}
         </button>
 
-        <button
-          type="button"
-          className={styles.button}
-          style={{ background: "transparent", color: "var(--text-muted)" }}
-          onClick={onLogout}
-          disabled={loading}
-        >
-          Sign out
-        </button>
       </form>
     </div>
   );

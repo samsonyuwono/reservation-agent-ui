@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { clearToken, getResyEmail, unlinkResy } from "../api/client";
+import { getResyEmail, unlinkResy } from "../api/client";
 import { useChat } from "../hooks/useChat";
 import { MessageBubble } from "../components/MessageBubble";
 import { ToolStatus } from "../components/ToolStatus";
@@ -7,11 +7,10 @@ import { ChatInput } from "../components/ChatInput";
 import styles from "./Chat.module.css";
 
 interface Props {
-  onLogout: () => void;
   onUnlink: () => void;
 }
 
-export function Chat({ onLogout, onUnlink }: Props) {
+export function Chat({ onUnlink }: Props) {
   const {
     messages,
     isStreaming,
@@ -28,12 +27,7 @@ export function Chat({ onLogout, onUnlink }: Props) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, activeToolLabel]);
 
-  function handleLogout() {
-    clearToken();
-    onLogout();
-  }
-
-  function handleUnlink() {
+  function handleSignOut() {
     unlinkResy().then(onUnlink).catch(() => {});
   }
 
@@ -52,10 +46,7 @@ export function Chat({ onLogout, onUnlink }: Props) {
           <button className={styles.headerBtn} onClick={clearChat}>
             New chat
           </button>
-          <button className={styles.headerBtn} onClick={handleUnlink}>
-            Unlink Resy
-          </button>
-          <button className={styles.headerBtn} onClick={handleLogout}>
+          <button className={styles.headerBtn} onClick={handleSignOut}>
             Sign out
           </button>
         </div>

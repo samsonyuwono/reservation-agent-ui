@@ -15,7 +15,7 @@ describe("LinkResy", () => {
   });
 
   it("renders email input, password input, and link button", () => {
-    render(<LinkResy onSuccess={vi.fn()} onLogout={vi.fn()} />);
+    render(<LinkResy onSuccess={vi.fn()} />);
     expect(screen.getByPlaceholderText("Resy email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Resy password")).toBeInTheDocument();
     expect(
@@ -30,7 +30,7 @@ describe("LinkResy", () => {
     });
     const user = userEvent.setup();
     const onSuccess = vi.fn();
-    render(<LinkResy onSuccess={onSuccess} onLogout={vi.fn()} />);
+    render(<LinkResy onSuccess={onSuccess} />);
 
     await user.type(screen.getByPlaceholderText("Resy email"), "me@resy.com");
     await user.type(screen.getByPlaceholderText("Resy password"), "pass");
@@ -43,7 +43,7 @@ describe("LinkResy", () => {
   it("failed link shows error message", async () => {
     mockLinkResy.mockRejectedValue(new Error("Invalid Resy credentials"));
     const user = userEvent.setup();
-    render(<LinkResy onSuccess={vi.fn()} onLogout={vi.fn()} />);
+    render(<LinkResy onSuccess={vi.fn()} />);
 
     await user.type(screen.getByPlaceholderText("Resy email"), "bad@resy.com");
     await user.type(screen.getByPlaceholderText("Resy password"), "wrong");
@@ -59,7 +59,7 @@ describe("LinkResy", () => {
   it("shows 'Linking…' during loading", async () => {
     mockLinkResy.mockImplementation(() => new Promise(() => {}));
     const user = userEvent.setup();
-    render(<LinkResy onSuccess={vi.fn()} onLogout={vi.fn()} />);
+    render(<LinkResy onSuccess={vi.fn()} />);
 
     await user.type(screen.getByPlaceholderText("Resy email"), "me@resy.com");
     await user.type(screen.getByPlaceholderText("Resy password"), "pass");
@@ -71,7 +71,7 @@ describe("LinkResy", () => {
   });
 
   it("renders helpful context about credentials and resy.com link", () => {
-    render(<LinkResy onSuccess={vi.fn()} onLogout={vi.fn()} />);
+    render(<LinkResy onSuccess={vi.fn()} />);
     expect(screen.getByText(/encrypted/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /resy\.com/i })).toHaveAttribute(
       "href",
@@ -79,13 +79,4 @@ describe("LinkResy", () => {
     );
   });
 
-  it("sign out button calls onLogout", async () => {
-    const user = userEvent.setup();
-    const onLogout = vi.fn();
-    render(<LinkResy onSuccess={vi.fn()} onLogout={onLogout} />);
-
-    await user.click(screen.getByRole("button", { name: "Sign out" }));
-
-    expect(onLogout).toHaveBeenCalled();
-  });
 });

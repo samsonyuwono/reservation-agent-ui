@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import {
   isAuthenticated,
   getResyEmail,
-  clearToken,
   getResyStatus,
   clearResyEmail,
 } from "./api/client";
@@ -37,29 +36,17 @@ export function App() {
       .catch(() => {});
   }, [authed]);
 
-  function handleLogout() {
-    clearToken();
-    setAuthed(false);
-    setResyLinked(false);
-  }
-
   if (!authed) {
     return <Login onSuccess={() => setAuthed(true)} />;
   }
 
   if (!resyLinked) {
     return (
-      <LinkResy
-        onSuccess={() => setResyLinked(true)}
-        onLogout={handleLogout}
-      />
+      <LinkResy onSuccess={() => setResyLinked(true)} />
     );
   }
 
   return (
-    <Chat
-      onLogout={handleLogout}
-      onUnlink={() => setResyLinked(false)}
-    />
+    <Chat onUnlink={() => setResyLinked(false)} />
   );
 }

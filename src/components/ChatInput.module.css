@@ -2,17 +2,14 @@
   display: flex;
   gap: var(--space-xs);
   padding: var(--space-sm);
-  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
   border-top: 1px solid var(--border-subtle);
   background: var(--bg-primary);
-  position: sticky;
-  bottom: 0;
 }
 
 .input {
   flex: 1;
   padding: 10px 12px;
-  font-size: 0.875rem;
+  font-size: 1rem;
   background: var(--bg-input);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);

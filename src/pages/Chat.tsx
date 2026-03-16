@@ -75,8 +75,11 @@ export function Chat({ onUnlink }: Props) {
           />
         ))}
 
-        {activeToolLabel && (
-          <ToolStatus label={activeToolLabel} completedTools={completedTools} />
+        {isStreaming && (
+          <ToolStatus
+            label={activeToolLabel || "Processing your request…"}
+            completedTools={completedTools}
+          />
         )}
 
         <div ref={bottomRef} />

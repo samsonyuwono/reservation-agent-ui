@@ -50,7 +50,7 @@
 .messages {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-sm) var(--space-xs);
+  padding: var(--space-sm) 12px;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);

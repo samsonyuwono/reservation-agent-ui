@@ -2,8 +2,11 @@
   display: flex;
   gap: var(--space-xs);
   padding: var(--space-sm);
+  padding-bottom: max(var(--space-sm), env(safe-area-inset-bottom));
   border-top: 1px solid var(--border-subtle);
   background: var(--bg-primary);
+  position: sticky;
+  bottom: 0;
 }
 
 .input {

@@ -141,86 +141,127 @@ export async function sendMessage(
   const body: Record<string, unknown> = { message };
   if (sessionId) body.session_id = sessionId;
 
-  const res = await fetch(`${API_BASE}/api/chat`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(body),
-  });
+  const controller = new AbortController();
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  const resetTimeout = () => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => controller.abort(), 90_000);
+  };
+
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}/api/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (err) {
+    if ((err as Error).name === "AbortError") {
+      callbacks.onError("Connection timed out. Please try again.");
+    } else {
+      callbacks.onError("Connection failed. Please try again.");
+    }
+    callbacks.onDone();
+    return;
+  }
 
   if (res.status === 401) {
     clearToken();
     callbacks.onError("Session expired");
+    callbacks.onDone();
     return;
   }
 
   if (res.status === 403) {
     callbacks.onError("resy_not_linked");
+    callbacks.onDone();
     return;
   }
 
   if (!res.ok || !res.body) {
     callbacks.onError("Chat request failed");
+    callbacks.onDone();
     return;
   }
 
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
+  let receivedDone = false;
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
+  resetTimeout();
 
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop() ?? "";
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
 
-    let currentEvent = "";
-    for (const line of lines) {
-      if (line.startsWith("event: ")) {
-        currentEvent = line.slice(7);
-      } else if (line.startsWith("data: ") && currentEvent) {
-        let data: Record<string, unknown>;
-        try {
-          data = JSON.parse(line.slice(6)) as Record<string, unknown>;
-        } catch {
+      resetTimeout();
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() ?? "";
+
+      let currentEvent = "";
+      for (const line of lines) {
+        if (line.startsWith("event: ")) {
+          currentEvent = line.slice(7);
+        } else if (line.startsWith("data: ") && currentEvent) {
+          let data: Record<string, unknown>;
+          try {
+            data = JSON.parse(line.slice(6)) as Record<string, unknown>;
+          } catch {
+            currentEvent = "";
+            continue;
+          }
+          switch (currentEvent) {
+            case "session":
+              callbacks.onSession(data.session_id as string);
+              break;
+            case "thinking":
+              callbacks.onThinking();
+              break;
+            case "tool_call":
+              callbacks.onToolCall(
+                data.tool as string,
+                data.input as Record<string, unknown>,
+              );
+              break;
+            case "tool_result":
+              callbacks.onToolResult(
+                data.tool as string,
+                data.result as Record<string, unknown>,
+              );
+              break;
+            case "message":
+              callbacks.onMessage(data.text as string);
+              break;
+            case "error":
+              callbacks.onError(data.detail as string);
+              break;
+            case "done":
+              receivedDone = true;
+              callbacks.onDone();
+              break;
+          }
           currentEvent = "";
-          continue;
         }
-        switch (currentEvent) {
-          case "session":
-            callbacks.onSession(data.session_id as string);
-            break;
-          case "thinking":
-            callbacks.onThinking();
-            break;
-          case "tool_call":
-            callbacks.onToolCall(
-              data.tool as string,
-              data.input as Record<string, unknown>,
-            );
-            break;
-          case "tool_result":
-            callbacks.onToolResult(
-              data.tool as string,
-              data.result as Record<string, unknown>,
-            );
-            break;
-          case "message":
-            callbacks.onMessage(data.text as string);
-            break;
-          case "error":
-            callbacks.onError(data.detail as string);
-            break;
-          case "done":
-            callbacks.onDone();
-            break;
-        }
-        currentEvent = "";
       }
+    }
+  } catch (err) {
+    if ((err as Error).name === "AbortError") {
+      callbacks.onError("Connection timed out. Please try again.");
+    } else {
+      callbacks.onError("Connection lost. Please try again.");
+    }
+  } finally {
+    clearTimeout(timeoutId);
+    if (!receivedDone) {
+      callbacks.onDone();
     }
   }
 }

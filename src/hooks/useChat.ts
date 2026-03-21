@@ -147,6 +147,9 @@ export function useChat() {
         setCompletedTools((prev) => [...prev, completedLabel(tool)]);
         setActiveToolLabel(null);
       },
+      onProgress(message) {
+        setActiveToolLabel(message);
+      },
       onMessage(msgText) {
         const assistantMsg: ChatMessage = {
           id: makeId(),

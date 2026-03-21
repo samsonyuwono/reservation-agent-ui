@@ -122,6 +122,7 @@ export interface SSECallbacks {
   onThinking: () => void;
   onToolCall: (tool: string, input: Record<string, unknown>) => void;
   onToolResult: (tool: string, result: Record<string, unknown>) => void;
+  onProgress: (message: string) => void;
   onMessage: (text: string) => void;
   onError: (detail: string) => void;
   onDone: () => void;
@@ -236,6 +237,9 @@ export async function sendMessage(
                 data.tool as string,
                 data.result as Record<string, unknown>,
               );
+              break;
+            case "progress":
+              callbacks.onProgress(data.message as string);
               break;
             case "message":
               callbacks.onMessage(data.text as string);

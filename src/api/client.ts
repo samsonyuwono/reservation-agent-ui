@@ -241,6 +241,8 @@ export async function sendMessage(
             case "progress":
               callbacks.onProgress(data.message as string);
               break;
+            case "keepalive":
+              break;
             case "message":
               callbacks.onMessage(data.text as string);
               break;

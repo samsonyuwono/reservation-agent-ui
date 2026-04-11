@@ -75,9 +75,9 @@ export function Chat({ onUnlink }: Props) {
           />
         ))}
 
-        {isStreaming && (
+        {(isStreaming || completedTools.length > 0) && (
           <ToolStatus
-            label={activeToolLabel || "Processing your request…"}
+            label={isStreaming ? (activeToolLabel || "Processing your request…") : undefined}
             completedTools={completedTools}
           />
         )}

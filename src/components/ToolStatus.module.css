@@ -1,19 +1,27 @@
 .container {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 0;
   animation: fadeInUp 0.2s var(--ease-out) both;
+  padding: var(--space-sm) 0;
 }
 
-.completed {
-  display: flex;
+.step {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 2px 0;
+  gap: 4px;
+}
+
+.arrow {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin: 0 4px;
+  opacity: 0.6;
 }
 
 .check {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--accent-green);
   line-height: 1;
 }
@@ -23,33 +31,26 @@
   color: var(--text-muted);
 }
 
-.wrapper {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: var(--space-sm) 0;
-}
-
 .dot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: var(--accent-blue);
   animation: pulse 1.2s ease-in-out infinite;
 }
 
-.dot:nth-child(2) {
+.dot:nth-child(3) {
   animation-delay: 0.2s;
 }
 
-.dot:nth-child(3) {
+.dot:nth-child(4) {
   animation-delay: 0.4s;
 }
 
 .label {
   font-size: 0.75rem;
   color: var(--text-muted);
-  margin-left: 4px;
+  margin-left: 2px;
 }
 
 @media (min-width: 769px) {

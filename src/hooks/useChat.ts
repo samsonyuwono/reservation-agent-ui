@@ -113,6 +113,7 @@ export function useChat() {
   // Accumulate tool events and cards for the current assistant message
   const pendingToolEvents = useRef<ToolEvent[]>([]);
   const pendingCards = useRef<CardData[]>([]);
+  const hasToolsRun = useRef(false);
 
   const send = useCallback(async (text: string) => {
     lastUserTextRef.current = text;
@@ -128,13 +129,14 @@ export function useChat() {
     setCompletedTools([]);
     pendingToolEvents.current = [];
     pendingCards.current = [];
+    hasToolsRun.current = false;
 
     await sendMessage(text, sessionIdRef.current, {
       onSession(sid) {
         sessionIdRef.current = sid;
       },
       onThinking() {
-        setActiveToolLabel("Processing your request…");
+        setActiveToolLabel(hasToolsRun.current ? "Thinking…" : "Processing your request…");
       },
       onToolCall(tool, input) {
         setActiveToolLabel(toolLabel(tool));
@@ -145,7 +147,7 @@ export function useChat() {
         const cards = extractCards(tool, result);
         pendingCards.current.push(...cards);
         setCompletedTools((prev) => [...prev, completedLabel(tool)]);
-        setActiveToolLabel(null);
+        hasToolsRun.current = true;
       },
       onProgress(message) {
         setActiveToolLabel(message);
@@ -179,7 +181,6 @@ export function useChat() {
       onDone() {
         setIsStreaming(false);
         setActiveToolLabel(null);
-        setCompletedTools([]);
       },
     });
   }, []);

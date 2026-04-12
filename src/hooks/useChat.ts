@@ -107,6 +107,7 @@ export function useChat() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [activeToolLabel, setActiveToolLabel] = useState<string | null>(null);
   const [completedTools, setCompletedTools] = useState<string[]>([]);
+  const [clearCount, setClearCount] = useState(0);
   const sessionIdRef = useRef<string | null>(null);
   const lastUserTextRef = useRef("");
 
@@ -199,6 +200,7 @@ export function useChat() {
     setIsStreaming(false);
     setActiveToolLabel(null);
     setCompletedTools([]);
+    setClearCount((c) => c + 1);
   }, []);
 
   return {
@@ -206,6 +208,7 @@ export function useChat() {
     isStreaming,
     activeToolLabel,
     completedTools,
+    clearCount,
     send,
     retry,
     clearChat,

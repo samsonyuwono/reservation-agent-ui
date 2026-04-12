@@ -65,7 +65,7 @@
   justify-content: center;
   text-align: center;
   gap: var(--space-md);
-  animation: fadeInUp 0.3s var(--ease-out) both;
+  animation: fadeInUp 0.4s 0.1s var(--ease-out) both;
 }
 
 .emptyTitle {
@@ -103,6 +103,17 @@
   color: var(--text-primary);
   border-color: var(--accent-blue);
   background: var(--bg-secondary);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (min-width: 481px) {

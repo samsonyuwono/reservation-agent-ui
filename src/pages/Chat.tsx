@@ -23,6 +23,7 @@ export function Chat({ onUnlink }: Props) {
     isStreaming,
     activeToolLabel,
     completedTools,
+    clearCount,
     send,
     retry,
     clearChat,
@@ -76,7 +77,7 @@ export function Chat({ onUnlink }: Props) {
 
       <main className={styles.messages}>
         {messages.length === 0 && (
-          <div className={styles.empty}>
+          <div key={clearCount} className={styles.empty}>
             <p className={styles.emptyTitle}>What table can I find for you? Only for New York City</p>
             <div className={styles.chips}>
               {SUGGESTIONS.map((q) => (
@@ -85,7 +86,6 @@ export function Chat({ onUnlink }: Props) {
                 </button>
               ))}
             </div>
-            <p className={styles.emptyHint}>Reservation Sniper Now in BETA</p>
           </div>
         )}
 

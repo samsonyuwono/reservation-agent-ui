@@ -64,7 +64,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: var(--space-sm);
+  gap: var(--space-md);
+  animation: fadeInUp 0.3s var(--ease-out) both;
 }
 
 .emptyTitle {
@@ -78,6 +79,30 @@
   color: var(--text-muted);
   max-width: 100%;
   line-height: 1.5;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.chip {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: var(--space-xs) var(--space-md);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.chip:hover {
+  color: var(--text-primary);
+  border-color: var(--accent-blue);
+  background: var(--bg-secondary);
 }
 
 @media (min-width: 481px) {

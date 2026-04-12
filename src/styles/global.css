@@ -48,6 +48,18 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --bg-elevated: #e8e8ed;
+  --bg-input: #f5f5f7;
+  --text-primary: #1c1c1e;
+  --text-secondary: #636366;
+  --text-muted: #8e8e93;
+  --border-subtle: #e0e0e0;
+  --border-card: #d1d1d6;
+}
+
 html,
 body,
 #root {

@@ -46,4 +46,14 @@ describe("ChatInput", () => {
     expect(input).toBeDisabled();
     expect(button).toBeDisabled();
   });
+
+  it("shows typing indicator when streaming", () => {
+    render(<ChatInput onSend={vi.fn()} disabled={true} isStreaming={true} />);
+    expect(screen.getByPlaceholderText(/agent is typing/i)).toBeInTheDocument();
+  });
+
+  it("shows default placeholder when not streaming", () => {
+    render(<ChatInput onSend={vi.fn()} disabled={false} isStreaming={false} />);
+    expect(screen.getByPlaceholderText(/ask about/i)).toBeInTheDocument();
+  });
 });

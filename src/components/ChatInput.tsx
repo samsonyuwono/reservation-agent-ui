@@ -4,9 +4,10 @@ import styles from "./ChatInput.module.css";
 interface Props {
   onSend: (text: string) => void;
   disabled: boolean;
+  isStreaming?: boolean;
 }
 
-export function ChatInput({ onSend, disabled }: Props) {
+export function ChatInput({ onSend, disabled, isStreaming }: Props) {
   const [value, setValue] = useState("");
 
   function handleSubmit(e: FormEvent) {
@@ -22,7 +23,7 @@ export function ChatInput({ onSend, disabled }: Props) {
       <input
         className={styles.input}
         type="text"
-        placeholder="Ask about restaurants, availability, or bookings…"
+        placeholder={isStreaming ? "Agent is typing\u2026" : "Ask about restaurants, availability, or bookings\u2026"}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         disabled={disabled}

@@ -11,6 +11,7 @@ export function setToken(token: string) {
 export function clearToken() {
   localStorage.removeItem("auth_token");
   localStorage.removeItem("resy_email");
+  window.dispatchEvent(new StorageEvent("storage", { key: "auth_token" }));
 }
 
 export function isAuthenticated(): boolean {

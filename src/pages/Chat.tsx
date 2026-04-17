@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { getResyEmail, unlinkResy } from "../api/client";
+import { getResyEmail, clearToken } from "../api/client";
 import { useChat } from "../hooks/useChat";
 import { MessageBubble } from "../components/MessageBubble";
 import { ToolStatus } from "../components/ToolStatus";
@@ -13,11 +13,7 @@ const SUGGESTIONS = [
   "Book Temple Court, Friday 7pm, party of 2",
 ];
 
-interface Props {
-  onUnlink: () => void;
-}
-
-export function Chat({ onUnlink }: Props) {
+export function Chat() {
   const {
     messages,
     isStreaming,
@@ -45,7 +41,7 @@ export function Chat({ onUnlink }: Props) {
   }, [messages.length, completedTools, activeToolLabel]);
 
   function handleSignOut() {
-    unlinkResy().then(onUnlink).catch(() => {});
+    clearToken();
   }
 
   const lastIdx = messages.length - 1;

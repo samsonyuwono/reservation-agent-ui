@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { linkResy } from "../api/client";
+import { linkResy, clearToken } from "../api/client";
 import { ResyLogo } from "../components/ResyLogo";
 import styles from "./Login.module.css";
 
@@ -71,6 +71,13 @@ export function LinkResy({ onSuccess }: Props) {
           {loading ? "Linking…" : "Link Account"}
         </button>
 
+        <button
+          className={styles.link}
+          type="button"
+          onClick={() => clearToken()}
+        >
+          Log out
+        </button>
       </form>
     </div>
   );

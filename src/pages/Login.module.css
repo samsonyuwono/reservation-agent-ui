@@ -92,6 +92,20 @@
   cursor: not-allowed;
 }
 
+.link {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+
+.link:hover {
+  color: var(--text-secondary);
+}
+
 @media (min-width: 769px) {
   .title {
     font-size: 2.4rem;

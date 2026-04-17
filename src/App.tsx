@@ -46,7 +46,5 @@ export function App() {
     );
   }
 
-  return (
-    <Chat onUnlink={() => setResyLinked(false)} />
-  );
+  return <Chat />;
 }
